@@ -1,3 +1,6 @@
+import sys
+sys.set_int_max_str_digits(0)
+
 population_at_k = [0, 1]
 positions = []
 biggest_pos = 0
@@ -7,8 +10,7 @@ N_inst = int(input())
 
 # reads all desired K's
 for i in range(N_inst):
-    n_inp = input()
-    pos = int(n_inp[-12:len(n_inp)]) % 1500
+    pos = int(input()) % 1500
     positions.append(pos)
 
     if pos > biggest_pos:
