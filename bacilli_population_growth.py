@@ -1,26 +1,30 @@
-import sys
-sys.set_int_max_str_digits(0)
-
-population_at_k = [0, 1]
-positions = []
-biggest_pos = 0
+import functools
+fib = [0, 1]
 
 # reads number of instances
 N_inst = int(input())
 
-# reads all desired K's
+# calculates fibonacci series till the 1500th term
+for x in range(2, 1500):
+    pn = (fib[x - 1] + fib[x - 2]) % 1000
+    fib.append(pn)
+
+# calculates position of every desired term
 for i in range(N_inst):
-    pos = int(input()) % 1500
-    positions.append(pos)
+    n_inp = input()
+    len_ = len(n_inp)
+    # truncates the input number to only it's 5 first digits
+    crop_n = n_inp[-5:len(n_inp)]
+    pos = int(crop_n)
 
-    if pos > biggest_pos:
-        biggest_pos = pos
+    # if the size of the input number is bigger than 4
+    if (len_ > 4):
+        # sums all the digits of the number but the last 3 digits
+        sum_ = functools.reduce(lambda a, b: int(a) + int(b), n_inp[0: -4])
 
-# calculate ellements of fibonacci series till the biggest requested
-for x in range(2, biggest_pos + 1):
-    pn = (population_at_k[x - 1] + population_at_k[x - 2]) % 1000
-    population_at_k.append(pn)
+        # if the sum mod 3 is different than the truncated number sum mod 3
+        if (sum_ % 3 != (int(crop_n[0]) + int(crop_n[1])) % 3):
+            # updates position fixing offset
+            pos += (sum_ % 3) * 1000
 
-# print the requested numbers in order
-for i in range(N_inst):
-    print(f"{population_at_k[positions[i]]:03d}")
+    print(f"{fib[pos % 1500]:03d}")
